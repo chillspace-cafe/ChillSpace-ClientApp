@@ -50,4 +50,9 @@
             android:id="@+id/action_dest_signup_to_dest_home"
             app:destination="@id/dest_home" />
     </fragment>
+    <fragment
+        android:id="@+id/dest_email_verification"
+        android:name="chillspace.chillspace.EmailVerificationFragment"
+        android:label="Verify Email"
+        tools:layout="@layout/fragment_email_verification" />
 </navigation>

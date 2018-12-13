@@ -4,13 +4,13 @@ package chillspace.chillspace
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-        lateinit var firebaseAuth: FirebaseAuth
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -19,15 +19,21 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
 
             val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+            val firebaseAuth = FirebaseAuth.getInstance()
 
             //changing fragments when firebase auth changed
-            firebaseAuth = FirebaseAuth.getInstance()
             firebaseAuth.addAuthStateListener {
                 if (firebaseAuth.currentUser == null) {
                     navController.navigate(R.id.action_dest_home_to_dest_signin)
                 }
                 else{
-                    navController.navigate(R.id.dest_home)
+                    //checking if current user has his email verified
+                    if(firebaseAuth.currentUser?.isEmailVerified!!){
+                        navController.navigate(R.id.dest_home)
+                    }
+                    else{
+                        navController.navigate(R.id.dest_email_verification)
+                    }
                 }
             }
 
@@ -36,5 +42,6 @@ class MainActivity : AppCompatActivity() {
                 toolbar.title = navController.currentDestination?.label
             }
         }
+
 }
 
