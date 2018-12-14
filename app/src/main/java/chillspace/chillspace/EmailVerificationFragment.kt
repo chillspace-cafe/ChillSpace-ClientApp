@@ -40,13 +40,12 @@ class EmailVerificationFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(activity,"HELLO",Toast.LENGTH_SHORT).show()
 
         //you need to run this user task to get updated current user status
         val userTask = firebaseAuth.currentUser?.reload()
         userTask?.addOnSuccessListener {
             if(firebaseAuth.currentUser?.isEmailVerified!!){
-                Navigation.findNavController(activity as Activity,R.id.nav_host_fragment).navigate(R.id.dest_home)
+                Navigation.findNavController(activity as Activity,R.id.nav_host_fragment).navigate(R.id.action_dest_email_verification_to_dest_home)
             }
         }
     }

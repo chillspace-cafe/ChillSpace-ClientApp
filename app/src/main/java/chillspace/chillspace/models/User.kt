@@ -1,16 +1,6 @@
 package chillspace.chillspace.models
 
-class User {
+import com.google.firebase.database.IgnoreExtraProperties
 
-    lateinit var username: String
-    lateinit var email: String
-
-    // Default constructor required for calls to
-    // DataSnapshot.getValue(User.class)
-    constructor() {}
-
-    constructor(name: String, email: String) {
-        this.username = name
-        this.email = email
-    }
-}
+@IgnoreExtraProperties
+data class User(var email : String? = "", var username : String? = "")
