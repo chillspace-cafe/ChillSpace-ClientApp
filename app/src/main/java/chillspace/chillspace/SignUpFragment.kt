@@ -20,10 +20,6 @@ import com.google.firebase.database.FirebaseDatabase
 
 class SignUpFragment : Fragment() {
 
-    companion object {
-        var result: Boolean = false
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
