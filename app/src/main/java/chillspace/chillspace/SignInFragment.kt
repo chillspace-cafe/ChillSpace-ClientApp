@@ -24,14 +24,14 @@ class SignInFragment : Fragment() {
 
         //proceed to sign up from sign in fragment
         proceedToSignUpTextView_SignInFragment.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_dest_signin_to_dest_signup)
+            Navigation.findNavController(it).navigate(R.id.dest_signup)
         }
 
         signInButton_SignInFragment.setOnClickListener {
 
             //showing progress dialog
             val builder = AlertDialog.Builder(activity)
-            var progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+            val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
             builder.setView(progressBar)
             val dialog = builder.create()
             dialog.show()

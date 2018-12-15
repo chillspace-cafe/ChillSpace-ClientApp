@@ -57,5 +57,11 @@
             app:popUpTo="@+id/dest_email_verification"
             app:popUpToInclusive="true"
             app:destination="@id/dest_home" />
+        <action
+            android:id="@+id/action_dest_email_verification_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_email_verification"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>
