@@ -4,14 +4,16 @@ package chillspace.chillspace
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_email_verification.*
+import android.view.MenuInflater
+
+
 
 
 class EmailVerificationFragment : Fragment() {
@@ -21,6 +23,8 @@ class EmailVerificationFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         firebaseAuth = FirebaseAuth.getInstance()
+
+        setHasOptionsMenu(true)
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_email_verification, container, false)
@@ -51,9 +55,22 @@ class EmailVerificationFragment : Fragment() {
     }
 
     private fun openEmailApp() {
-
         val intent = Intent(Intent.ACTION_MAIN)
         intent.addCategory(Intent.CATEGORY_APP_EMAIL)
         activity!!.startActivity(intent)
+    }
+
+    //creating menu in the toolbar
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_toolbar_emailverif,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    //NOTE : You may use NavigationUI if you want to navigate always to the frag with same id as menu id
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item!!.itemId==R.id.logout_emailVerif){
+            firebaseAuth.signOut()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
