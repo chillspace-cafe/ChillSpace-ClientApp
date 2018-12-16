@@ -49,7 +49,7 @@ class SignUpFragment : Fragment() {
             val firebaseAuth = FirebaseAuth.getInstance()
 
             val email = editEmail_SignUpFragment.text.toString().trim()
-            val password = editPassword_SignUpFragment.text.toString().trim()
+            val password = editPassword_SignUpFragment.text.toString()
             val username = editUsername_SignUpFragment.text.toString().trim()
 
             if (isUsernamePreExisting(databaseRef, username) == 0) {
