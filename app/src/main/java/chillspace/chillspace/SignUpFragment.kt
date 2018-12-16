@@ -57,7 +57,7 @@ class SignUpFragment : Fragment() {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                         if (it.isSuccessful) {
                             //add user to database
-                            val user = User(email, username)
+                            val user = User(email, username, "")
                             databaseRef.child("User").child(firebaseAuth.currentUser?.uid.toString()).setValue(user)
 
                             firebaseAuth.signInWithEmailAndPassword(email, password) //Note : Navigation will automatically be handled by main activity
