@@ -63,7 +63,7 @@ class ProfileFragment : Fragment() {
             val newPassword1 = edit_newpassword1_profile.text.toString()
             val newPassword2 = edit_newpassword2_profile.text.toString()
 
-            if (newPassword1.equals(newPassword2)) {
+            if (newPassword1 == newPassword2) {
                 if (newPassword1.length >= 6) {
                     val credential = EmailAuthProvider.getCredential(firebaseUser.email.toString(), oldPassword1)
                     firebaseUser.reauthenticate(credential)?.addOnCompleteListener { taskAuthenticatingCurrentUser ->
@@ -71,6 +71,11 @@ class ProfileFragment : Fragment() {
                             firebaseUser.updatePassword(newPassword1).addOnCompleteListener { taskNewPasswordSetup ->
                                 if (taskNewPasswordSetup.isSuccessful) {
                                     Toast.makeText(activity, "New password successfully set.", Toast.LENGTH_SHORT).show()
+
+                                    //nullify all texts in password edit texts
+                                    edit_oldpassword_profile.setText("")
+                                    edit_newpassword1_profile.setText("")
+                                    edit_newpassword2_profile.setText("")
                                 } else {
                                     Toast.makeText(activity, "Couldn't set new password. Please try again.", Toast.LENGTH_SHORT).show()
                                 }
@@ -84,6 +89,26 @@ class ProfileFragment : Fragment() {
                 }
             } else {
                 Toast.makeText(activity, "Passwords don't match.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        imgbtn_name_profile.setOnClickListener{
+            databaseRef.child("name").setValue(edit_name_profile.text.toString().trim()).addOnCompleteListener {
+                if(it.isSuccessful){
+                    Toast.makeText(activity,"Name updated successfully.",Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(activity,"Couldn't update name. Please try again.",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        imgbtn_username_profile.setOnClickListener{
+            databaseRef.child("username").setValue(edit_username_profile.text.toString().trim()).addOnCompleteListener {
+                if(it.isSuccessful){
+                    Toast.makeText(activity,"Username updated successfully.",Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(activity,"Couldn't update username. Please try again.",Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
