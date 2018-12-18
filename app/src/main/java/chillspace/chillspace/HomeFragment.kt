@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +32,23 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_toolbar_home,menu)
         super.onCreateOptionsMenu(menu, inflater)
+
+        //is true if chronometer is running
+        var running : Boolean = false
+
+        btn_start_home.setOnClickListener {
+            if(!running){
+                chronometer.start()
+                running = true
+            }
+        }
+
+        btn_stop_home.setOnClickListener {
+            if(running){
+                chronometer.stop()
+                running = false
+            }
+        }
     }
 
     //NOTE : You may use NavigationUI if you want to navigate always to the frag with same id as menu id
