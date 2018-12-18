@@ -1,6 +1,7 @@
 package chillspace.chillspace
 
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -23,10 +24,18 @@ class SignInFragment : Fragment() {
 
         //proceed to sign up from sign in fragment
         proceedToSignUpTextView_SignInFragment.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_dest_signin_to_dest_signup)
+            Navigation.findNavController(it).navigate(R.id.dest_signup)
         }
 
         signInButton_SignInFragment.setOnClickListener {
+
+            //showing progress dialog
+            val builder = AlertDialog.Builder(activity)
+            val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+            builder.setView(progressBar)
+            val dialog = builder.create()
+            dialog.show()
+
             FirebaseAuth.getInstance().signInWithEmailAndPassword(editEmail_signInFragment.text.toString().trim(), editPassword_signInFragment.text.toString().trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
@@ -34,6 +43,8 @@ class SignInFragment : Fragment() {
                         } else {
                             textView_SignInFragment.text = "Please try again."
                         }
+
+                        dialog.dismiss()
                     }
             //Navigation will be done by main activity
         }

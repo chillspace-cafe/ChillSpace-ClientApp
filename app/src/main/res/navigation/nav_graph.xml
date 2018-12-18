@@ -28,15 +28,18 @@
         android:id="@+id/dest_profile"
         android:name="chillspace.chillspace.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_dest_profile_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
     <fragment
         android:id="@+id/dest_signin"
         android:name="chillspace.chillspace.SignInFragment"
         android:label="Sign In"
         tools:layout="@layout/fragment_sign_in">
-        <action
-            android:id="@+id/action_dest_signin_to_dest_signup"
-            app:destination="@id/dest_signup" />
         <action
             android:id="@+id/action_dest_signin_to_dest_home"
             app:destination="@id/dest_home" />
@@ -47,7 +50,24 @@
         android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up">
         <action
-            android:id="@+id/action_dest_signup_to_dest_home"
+            android:id="@+id/action_dest_signup_to_dest_email_verification"
+            app:destination="@id/dest_email_verification" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_email_verification"
+        android:name="chillspace.chillspace.EmailVerificationFragment"
+        android:label="Verify Email"
+        tools:layout="@layout/fragment_email_verification" >
+        <action
+            android:id="@+id/action_dest_email_verification_to_dest_home"
+            app:popUpTo="@+id/dest_email_verification"
+            app:popUpToInclusive="true"
             app:destination="@id/dest_home" />
+        <action
+            android:id="@+id/action_dest_email_verification_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_email_verification"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>
