@@ -1,17 +1,13 @@
 package chillspace.chillspace
 
 
-import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import chillspace.chillspace.databinding.FragmentProfileBinding
 import chillspace.chillspace.models.User
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -30,25 +26,16 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        //allowing menu in toolbar
+        setHasOptionsMenu(true)
+
         // data binding
         val binding = DataBindingUtil.bind<FragmentProfileBinding>(view)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().reference.child("User").child(firebaseUser.uid.toString())
 
-        databaseRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(activity, "Cant find user data.", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val user: User = p0.getValue(User::class.java)!!
-
-                //setting value in data binding
-                binding?.user = user
-            }
-
-        })
+        binding?.user = MainActivity.user
 
         return view
     }
@@ -111,6 +98,20 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    //creating menu in the toolbar
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_toolbar_emailverif_and_profile,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    //NOTE : You may use NavigationUI if you want to navigate always to the frag with same id as menu id
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item!!.itemId==R.id.logout_emailverif_and_profile){
+            FirebaseAuth.getInstance().signOut()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

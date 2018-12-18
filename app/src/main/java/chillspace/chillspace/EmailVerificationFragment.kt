@@ -8,7 +8,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_email_verification.*
 import android.view.MenuInflater
@@ -62,13 +61,13 @@ class EmailVerificationFragment : Fragment() {
 
     //creating menu in the toolbar
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_toolbar_emailverif,menu)
+        inflater?.inflate(R.menu.menu_toolbar_emailverif_and_profile,menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     //NOTE : You may use NavigationUI if you want to navigate always to the frag with same id as menu id
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item!!.itemId==R.id.logout_emailVerif){
+        if(item!!.itemId==R.id.logout_emailverif_and_profile){
             firebaseAuth.signOut()
         }
         return super.onOptionsItemSelected(item)
