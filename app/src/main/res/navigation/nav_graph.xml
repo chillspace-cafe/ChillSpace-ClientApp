@@ -28,7 +28,13 @@
         android:id="@+id/dest_profile"
         android:name="chillspace.chillspace.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_dest_profile_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
     <fragment
         android:id="@+id/dest_signin"
         android:name="chillspace.chillspace.SignInFragment"
