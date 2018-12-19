@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import com.google.firebase.database.*
 import com.google.firebase.database.DatabaseError
 import chillspace.chillspace.models.User
+import chillspace.chillspace.CallbackInterface
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.FirebaseDatabase
@@ -52,48 +54,63 @@ class SignUpFragment : Fragment() {
             val password = editPassword_SignUpFragment.text.toString().trim()
             val username = editUsername_SignUpFragment.text.toString().trim()
 
-            if (isUsernamePreExisting(databaseRef, username) == 0) {
-                if (password.length >= 6) {
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            //add user to database
-                            val user = User(email, username)
-                            databaseRef.child("User").child(firebaseAuth.currentUser?.uid.toString()).setValue(user)
+            isUsernamePreExisting(databaseRef, username, object : CallbackInterface<Boolean>{
+                override fun callback(data: Boolean) { //data shows isUsernamePreExisting
 
-                            firebaseAuth.signInWithEmailAndPassword(email, password) //Note : Navigation will automatically be handled by main activity
-                            dialog.dismiss()
+                    //username doesn't exists
+                    if(!data){
+                        if (password.length >= 6) {
+                            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    //add user to database
+                                    val user = User(email, username)
+                                    databaseRef.child("User").child(firebaseAuth.currentUser?.uid.toString()).setValue(user)
+
+                                    firebaseAuth.signInWithEmailAndPassword(email, password) //Note : Navigation will automatically be handled by main activity
+                                    dialog.dismiss()
+                                } else {
+                                    textView_SignUpFragment.text = "Couldn't Sign Up.\nPlease try again."
+                                    dialog.dismiss()
+                                }
+                            }
+
                         } else {
-                            textView_SignUpFragment.text = "Couldn't Sign Up.\nPlease try again."
+                            textView_SignUpFragment.text = "Password must be atleast 6 character long."
                             dialog.dismiss()
                         }
                     }
 
-                } else {
-                    textView_SignUpFragment.text = "Password must be atleast 6 character long."
-                    dialog.dismiss()
+                    //passed username exist
+                    else{
+                        dialog.dismiss()
+                        textView_SignUpFragment.text = "Username already exists."
+                    }
                 }
-            }
-            else{
-                textView_SignUpFragment.text = "Username already exists."
-            }
+
+            })
+
         }
     }
 
-    private fun isUsernamePreExisting(databaseRef: DatabaseReference, username: String): Int {
-        var result = 0
+    private fun isUsernamePreExisting(databaseRef: DatabaseReference, username: String, @NonNull callbackInterface: CallbackInterface<Boolean>) {
+
         databaseRef.child("User")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (snapshot in dataSnapshot.children) {
                             val user = snapshot.getValue(User::class.java)
                             if (user?.username.equals(username)) {
-                                result = 1
+                                //username found
+                                callbackInterface.callback(true)
+                                return
                             }
                         }
+
+                        //username not found
+                        callbackInterface.callback(false)
                     }
                     override fun onCancelled(databaseError: DatabaseError) {}
                 })
-        return result
-    }
 
+    }
 }
