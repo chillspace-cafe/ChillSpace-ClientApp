@@ -1,9 +1,11 @@
-package chillspace.chillspace
+package chillspace.chillspace.views
 
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import chillspace.chillspace.R
 import chillspace.chillspace.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -14,9 +16,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-  feat/profile
     companion object {
-        var user: User? = User("", "")
+        var user: User? = User("", "","")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

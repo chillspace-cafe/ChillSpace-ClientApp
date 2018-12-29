@@ -1,4 +1,4 @@
-package chillspace.chillspace
+package chillspace.chillspace.views
 
 
 import android.app.Activity
@@ -11,8 +11,7 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_email_verification.*
 import android.view.MenuInflater
-
-
+import chillspace.chillspace.R
 
 
 class EmailVerificationFragment : Fragment() {
@@ -48,7 +47,7 @@ class EmailVerificationFragment : Fragment() {
         val userTask = firebaseAuth.currentUser?.reload()
         userTask?.addOnSuccessListener {
             if(firebaseAuth.currentUser?.isEmailVerified!!){
-                Navigation.findNavController(activity as Activity,R.id.nav_host_fragment).navigate(R.id.action_dest_email_verification_to_dest_home)
+                Navigation.findNavController(activity as Activity, R.id.nav_host_fragment).navigate(R.id.action_dest_email_verification_to_dest_home)
             }
         }
     }
@@ -67,7 +66,7 @@ class EmailVerificationFragment : Fragment() {
 
     //NOTE : You may use NavigationUI if you want to navigate always to the frag with same id as menu id
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item!!.itemId==R.id.logout_emailverif_and_profile){
+        if(item!!.itemId== R.id.logout_emailverif_and_profile){
             firebaseAuth.signOut()
         }
         return super.onOptionsItemSelected(item)
