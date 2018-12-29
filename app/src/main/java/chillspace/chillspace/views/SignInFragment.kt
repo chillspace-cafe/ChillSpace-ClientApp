@@ -1,4 +1,4 @@
-package chillspace.chillspace
+package chillspace.chillspace.views
 
 
 import android.app.AlertDialog
@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import chillspace.chillspace.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 

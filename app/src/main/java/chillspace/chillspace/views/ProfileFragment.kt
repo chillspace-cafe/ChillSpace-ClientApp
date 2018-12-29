@@ -1,13 +1,12 @@
-package chillspace.chillspace
-
+package chillspace.chillspace.views
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import chillspace.chillspace.R
 import chillspace.chillspace.databinding.FragmentProfileBinding
-import chillspace.chillspace.models.User
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -108,7 +107,7 @@ class ProfileFragment : Fragment() {
 
     //NOTE : You may use NavigationUI if you want to navigate always to the frag with same id as menu id
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item!!.itemId==R.id.logout_emailverif_and_profile){
+        if(item!!.itemId== R.id.logout_emailverif_and_profile){
             FirebaseAuth.getInstance().signOut()
         }
         return super.onOptionsItemSelected(item)

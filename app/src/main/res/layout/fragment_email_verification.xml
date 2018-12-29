@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:layout_height="match_parent"
-    tools:context=".EmailVerificationFragment">
+    tools:context=".views.EmailVerificationFragment">
 
     <TextView
         android:layout_width="match_parent"

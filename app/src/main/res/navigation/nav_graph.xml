@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dest_home"
-        android:name="chillspace.chillspace.HomeFragment"
+        android:name="chillspace.chillspace.views.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/dest_profile"
-        android:name="chillspace.chillspace.ProfileFragment"
+        android:name="chillspace.chillspace.views.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/dest_signin"
-        android:name="chillspace.chillspace.SignInFragment"
+        android:name="chillspace.chillspace.views.SignInFragment"
         android:label="Sign In"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/dest_signup"
-        android:name="chillspace.chillspace.SignUpFragment"
+        android:name="chillspace.chillspace.views.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up">
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/dest_email_verification"
-        android:name="chillspace.chillspace.EmailVerificationFragment"
+        android:name="chillspace.chillspace.views.EmailVerificationFragment"
         android:label="Verify Email"
         tools:layout="@layout/fragment_email_verification" >
         <action

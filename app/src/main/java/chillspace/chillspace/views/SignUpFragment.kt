@@ -1,4 +1,4 @@
-package chillspace.chillspace
+package chillspace.chillspace.views
 
 
 import android.app.AlertDialog
@@ -14,7 +14,8 @@ import kotlinx.android.synthetic.main.fragment_sign_up.*
 import com.google.firebase.database.*
 import com.google.firebase.database.DatabaseError
 import chillspace.chillspace.models.User
-import chillspace.chillspace.CallbackInterface
+import chillspace.chillspace.interfaces.CallbackInterface
+import chillspace.chillspace.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.FirebaseDatabase
@@ -54,7 +55,7 @@ class SignUpFragment : Fragment() {
             val password = editPassword_SignUpFragment.text.toString()
             val username = editUsername_SignUpFragment.text.toString().trim()
 
-            isUsernamePreExisting(databaseRef, username, object : CallbackInterface<Boolean>{
+            isUsernamePreExisting(databaseRef, username, object : CallbackInterface<Boolean> {
                 override fun callback(data: Boolean) { //data shows isUsernamePreExisting
 
                     //username doesn't exists
