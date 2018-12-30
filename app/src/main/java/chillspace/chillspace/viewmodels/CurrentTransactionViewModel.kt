@@ -12,7 +12,8 @@ import androidx.lifecycle.LiveData
 import chillspace.chillspace.models.CurrentTransaction
 
 class CurrentTransactionViewModel : ViewModel(){
-    private val dbRef = FirebaseDatabase.getInstance().reference.child("CurrentTransactions").child(FirebaseAuth.getInstance().currentUser?.uid.toString())
+    private val dbRef = FirebaseDatabase.getInstance().reference.child("CurrentTransactions")
+            .child(FirebaseAuth.getInstance().currentUser?.uid.toString())
 
     private val liveData = FirebaseDatabaseLiveData(dbRef as Query)
 

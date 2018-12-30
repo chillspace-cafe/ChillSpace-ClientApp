@@ -2,6 +2,7 @@ package chillspace.chillspace.views
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -51,6 +52,7 @@ class HomeFragment : Fragment() {
         super.onResume()
 
         val imgBtn = imgBtn_play_stop
+        val chronometer = chronometer
 
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
         val currentTransactionLiveData = currentTransactionViewModel.getCurrentTransactionLiveData()
@@ -60,6 +62,9 @@ class HomeFragment : Fragment() {
                 if(it.isActive!!){
                     imgBtn.setImageResource(R.drawable.ic_stop_black_24dp)
                     imgBtn.setOnClickListener(onStopCLickedListener)
+
+                    chronometer.base = SystemClock.elapsedRealtime()-(System.currentTimeMillis() - it.startTime_in_milliSec!!)
+                    chronometer.start()
                 }
                 else{
                     imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
@@ -78,13 +83,22 @@ class HomeFragment : Fragment() {
         val otp = generateOTP()
         otpList.add(otp)
         dbRef.child("OTP_List").setValue(otpList)
-        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(firebaseAuth.currentUser?.uid.toString(),false))
+        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(),isRunning = false,startTime = System.currentTimeMillis()))
 
         txt_OTP.text = otp.toString()
     }
 
     private val onStopCLickedListener = View.OnClickListener {
         Toast.makeText(activity, "Ending", Toast.LENGTH_SHORT).show()
+
+        val otp = generateOTP()
+        otpList.add(otp)
+        dbRef.child("OTP_List").setValue(otpList)
+
+        val playTime = SystemClock.elapsedRealtime() - chronometer.base
+        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(),isRunning = true,startTime = System.currentTimeMillis(),playTime = playTime))
+
+        txt_OTP.text = otp.toString()
     }
 
     private fun generateOTP() : Int{
