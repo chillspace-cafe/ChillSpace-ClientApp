@@ -11,22 +11,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import chillspace.chillspace.R
+import chillspace.chillspace.interfaces.CallbackInterface
 import chillspace.chillspace.models.GeneratedOTP
 import chillspace.chillspace.viewmodels.CurrentTransactionViewModel
 import chillspace.chillspace.viewmodels.OTP_List_ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.random.Random
 
 class HomeFragment : Fragment() {
-
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var otpList = ArrayList<Int>()
     private val dbRef = FirebaseDatabase.getInstance().reference
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         //allowing menu in toolbar
         setHasOptionsMenu(true)
@@ -43,7 +42,7 @@ class HomeFragment : Fragment() {
         val otpListLiveData = otpListViewModel.getOTPListLiveData()
 
         otpListLiveData.observe(this, Observer {
-            if(it!=null)
+            if (it != null)
                 otpList = it
         })
     }
@@ -57,33 +56,63 @@ class HomeFragment : Fragment() {
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
         val currentTransactionLiveData = currentTransactionViewModel.getCurrentTransactionLiveData()
 
-        currentTransactionLiveData.observe(activity as LifecycleOwner, Observer {
-            if (it != null) {
-                if(it.isActive!!){
+        currentTransactionLiveData.observe(activity as LifecycleOwner, Observer {currTransac ->
+            if (currTransac != null) {
+                if (currTransac.isActive!!) {
                     imgBtn.setImageResource(R.drawable.ic_stop_black_24dp)
                     imgBtn.setOnClickListener(onStopCLickedListener)
 
-                    chronometer.base = SystemClock.elapsedRealtime()-(System.currentTimeMillis() - it.startTime_in_milliSec!!)
-                    chronometer.start()
-                }
-                else{
+                    //set chronometer base
+                    dbRef.child("Current").child("CurrentTime").setValue(ServerValue.TIMESTAMP).addOnSuccessListener {
+                        getCurrentFirebaseTime(object : CallbackInterface<Long> {
+                            override fun callback(data: Long) {
+                                chronometer.base = SystemClock.elapsedRealtime() - (data - currTransac.startTime_in_milliSec!!)
+                                chronometer.start()
+                            }
+                        })
+                    }
+
+                } else {
                     imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
                     imgBtn.setOnClickListener(onStartCLickedListener)
+
+                    chronometer.base = SystemClock.elapsedRealtime()
+                    chronometer.stop()
                 }
-            }else{
+            } else {
                 imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
                 imgBtn.setOnClickListener(onStartCLickedListener)
+
+                chronometer.base = SystemClock.elapsedRealtime()
+                chronometer.stop()
             }
         })
     }
 
+    private fun getCurrentFirebaseTime(callbackInterface: CallbackInterface<Long>) {
+
+        dbRef.child("Current").child("CurrentTime").addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(activity,"Couldn't get time from server",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                callbackInterface.callback(dataSnapshot.value.toString().toLong())
+            }
+
+        })
+
+    }
+
+
     private val onStartCLickedListener = View.OnClickListener {
+
         Toast.makeText(activity, "Starting", Toast.LENGTH_SHORT).show()
 
         val otp = generateOTP()
         otpList.add(otp)
         dbRef.child("OTP_List").setValue(otpList)
-        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(),isRunning = false,startTime = System.currentTimeMillis()))
+        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(), isRunning = false))
 
         txt_OTP.text = otp.toString()
     }
@@ -95,17 +124,16 @@ class HomeFragment : Fragment() {
         otpList.add(otp)
         dbRef.child("OTP_List").setValue(otpList)
 
-        val playTime = SystemClock.elapsedRealtime() - chronometer.base
-        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(),isRunning = true,startTime = System.currentTimeMillis(),playTime = playTime))
+        dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(), isRunning = true))
 
         txt_OTP.text = otp.toString()
     }
 
-    private fun generateOTP() : Int{
-        var otp = Random.nextInt(1111,9999)
+    private fun generateOTP(): Int {
+        var otp = Random.nextInt(1111, 9999)
 
-        while (otpList.contains(otp)){
-            otp = Random.nextInt(1111,9999)
+        while (otpList.contains(otp)) {
+            otp = Random.nextInt(1111, 9999)
         }
 
         return otp
