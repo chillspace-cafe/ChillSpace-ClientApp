@@ -9,23 +9,23 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
-import chillspace.chillspace.models.CurrentTransaction
+import chillspace.chillspace.models.CurrentTransactionClientSide
 
 class CurrentTransactionViewModel : ViewModel(){
-    private val dbRef = FirebaseDatabase.getInstance().reference.child("CurrentTransactions")
+    private val dbRef = FirebaseDatabase.getInstance().reference.child("Current").child("CurrentTransactions")
             .child(FirebaseAuth.getInstance().currentUser?.uid.toString())
 
     private val liveData = FirebaseDatabaseLiveData(dbRef as Query)
 
     private val currentTransactionLiveData = Transformations.map(liveData,Deserializer())
 
-    private class Deserializer : Function<DataSnapshot, CurrentTransaction> {
-        override fun apply(dataSnapshot: DataSnapshot): CurrentTransaction? {
-            return dataSnapshot.getValue(CurrentTransaction::class.java)
+    private class Deserializer : Function<DataSnapshot, CurrentTransactionClientSide> {
+        override fun apply(dataSnapshot: DataSnapshot): CurrentTransactionClientSide? {
+            return dataSnapshot.getValue(CurrentTransactionClientSide::class.java)
         }
     }
 
-    fun getCurrentTransactionLiveData(): LiveData<CurrentTransaction> {
+    fun getCurrentTransactionLiveData(): LiveData<CurrentTransactionClientSide> {
         return currentTransactionLiveData
     }
 }
