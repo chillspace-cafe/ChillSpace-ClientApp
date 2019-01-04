@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        var user: User? = User("", "","")
+        var user: User? = User("", "", "")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,5 +66,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-}
+    //assists navigation
+    override fun onBackPressed() {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
+        if (navController.currentDestination?.id == R.id.dest_email_verification
+                || navController.currentDestination?.id == R.id.dest_home
+                || navController.currentDestination?.id == R.id.dest_signin) {
+            finish()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+}
