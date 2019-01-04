@@ -150,6 +150,7 @@ class HomeFragment : Fragment() {
         when {
             item!!.itemId == R.id.logout_home -> firebaseAuth.signOut()
             item.itemId == R.id.dest_profile -> Navigation.findNavController(activity as Activity, R.id.nav_host_fragment).navigate(R.id.dest_profile)
+            item.itemId == R.id.dest_completed_transactions -> Navigation.findNavController(activity as Activity, R.id.nav_host_fragment).navigate(R.id.dest_completed_transactions)
         }
         return super.onOptionsItemSelected(item)
     }

@@ -23,6 +23,9 @@
             app:destination="@id/dest_signin"
             app:popUpTo="@+id/dest_home"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_dest_home_to_completedTransactionsFragment"
+            app:destination="@id/dest_completed_transactions" />
     </fragment>
     <fragment
         android:id="@+id/dest_profile"
@@ -70,4 +73,9 @@
             app:popUpToInclusive="true"
             />
     </fragment>
+    <fragment
+        android:id="@+id/dest_completed_transactions"
+        android:name="chillspace.chillspace.views.CompletedTransactionsFragment"
+        android:label="My Transactions"
+        tools:layout="@layout/fragment_completed_transactions" />
 </navigation>
