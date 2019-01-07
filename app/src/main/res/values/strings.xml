@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Chill Space</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="verify_email">Hello User!\nPlease verify your email to be able to use the app.</string>
+</resources>

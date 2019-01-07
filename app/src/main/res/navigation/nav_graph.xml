@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dest_home">
+
+    <fragment
+        android:id="@+id/dest_home"
+        android:name="chillspace.chillspace.views.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_dest_home_to_dest_profile"
+            app:destination="@id/dest_profile" />
+
+
+        <!-- //below these are used to remove dest_home from back stack
+            app:popUpTo="@+id/dest_home"
+            app:popUpToInclusive="true"  -->
+        <action
+            android:id="@+id/action_dest_home_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_home"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_dest_home_to_completedTransactionsFragment"
+            app:destination="@id/dest_completed_transactions" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_profile"
+        android:name="chillspace.chillspace.views.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_dest_profile_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/dest_signin"
+        android:name="chillspace.chillspace.views.SignInFragment"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_dest_signin_to_dest_home"
+            app:destination="@id/dest_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_signup"
+        android:name="chillspace.chillspace.views.SignUpFragment"
+        android:label="Sign Up"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_dest_signup_to_dest_email_verification"
+            app:destination="@id/dest_email_verification" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_email_verification"
+        android:name="chillspace.chillspace.views.EmailVerificationFragment"
+        android:label="Verify Email"
+        tools:layout="@layout/fragment_email_verification" >
+        <action
+            android:id="@+id/action_dest_email_verification_to_dest_home"
+            app:popUpTo="@+id/dest_email_verification"
+            app:popUpToInclusive="true"
+            app:destination="@id/dest_home" />
+        <action
+            android:id="@+id/action_dest_email_verification_to_dest_signin"
+            app:destination="@id/dest_signin"
+            app:popUpTo="@+id/dest_email_verification"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_completed_transactions"
+        android:name="chillspace.chillspace.views.CompletedTransactionsFragment"
+        android:label="My Transactions"
+        tools:layout="@layout/fragment_completed_transactions" />
+</navigation>
