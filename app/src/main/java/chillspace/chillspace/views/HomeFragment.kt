@@ -56,6 +56,8 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        val rippleBackground = rippleBackground
+
         val imgBtn = imgBtn_play_stop
         val chronometer = chronometer
 
