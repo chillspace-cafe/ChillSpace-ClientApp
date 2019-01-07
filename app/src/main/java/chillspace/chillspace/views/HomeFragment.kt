@@ -19,6 +19,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.random.Random
+import android.view.animation.Animation
+import android.view.animation.AlphaAnimation
+import android.widget.Chronometer
+import chillspace.chillspace.R.id.imgBtn_play_stop
+import chillspace.chillspace.R.id.txt_OTP
+
 
 class HomeFragment : Fragment() {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -56,7 +62,7 @@ class HomeFragment : Fragment() {
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
         val currentTransactionLiveData = currentTransactionViewModel.getCurrentTransactionLiveData()
 
-        currentTransactionLiveData.observe(activity as LifecycleOwner, Observer {currTransac ->
+        currentTransactionLiveData.observe(activity as LifecycleOwner, Observer { currTransac ->
             if (currTransac != null) {
                 if (currTransac.isActive!!) {
                     imgBtn.setImageResource(R.drawable.ic_stop_black_24dp)
@@ -68,6 +74,8 @@ class HomeFragment : Fragment() {
                             override fun callback(data: Long) {
                                 chronometer.base = SystemClock.elapsedRealtime() - (data - currTransac.startTime_in_milliSec!!)
                                 chronometer.start()
+                                startBlinkAnimation(chronometer, true)
+                                rippleBackground.startRippleAnimation()
                             }
                         })
                     }
@@ -78,6 +86,8 @@ class HomeFragment : Fragment() {
 
                     chronometer.base = SystemClock.elapsedRealtime()
                     chronometer.stop()
+                    startBlinkAnimation(chronometer, false)
+                    rippleBackground.stopRippleAnimation()
                 }
             } else {
                 imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
@@ -85,15 +95,17 @@ class HomeFragment : Fragment() {
 
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.stop()
+                startBlinkAnimation(chronometer, false)
+                rippleBackground.stopRippleAnimation()
             }
         })
     }
 
     private fun getCurrentFirebaseTime(callbackInterface: CallbackInterface<Long>) {
 
-        dbRef.child("Current").child("CurrentTime").addListenerForSingleValueEvent(object : ValueEventListener{
+        dbRef.child("Current").child("CurrentTime").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(activity,"Couldn't get time from server",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Couldn't get time from server", Toast.LENGTH_SHORT).show()
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -153,5 +165,18 @@ class HomeFragment : Fragment() {
             item.itemId == R.id.dest_completed_transactions -> Navigation.findNavController(activity as Activity, R.id.nav_host_fragment).navigate(R.id.dest_completed_transactions)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun startBlinkAnimation(chron: Chronometer, bool: Boolean) {
+        if (bool) {
+            val anim = AlphaAnimation(0.0f, 1.0f)
+            anim.duration = 1000 //You can manage the blinking time with this parameter
+            anim.startOffset = 20
+            anim.repeatMode = Animation.REVERSE
+            anim.repeatCount = Animation.INFINITE
+            chron.startAnimation(anim)
+        } else {
+            chron.clearAnimation()
+        }
     }
 }
