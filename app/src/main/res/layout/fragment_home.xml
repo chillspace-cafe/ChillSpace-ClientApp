@@ -1,51 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.skyfishjy.library.RippleBackground xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rippleBackground"
-    tools:context=".views.HomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:rb_color="#0099CC"
-    app:rb_duration="3000"
-    app:rb_radius="32dp"
-    app:rb_rippleAmount="4"
-    app:rb_scale="6">
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context=".views.HomeFragment">
 
-
-    <LinearLayout
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/rippleBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="366dp"
+        app:rb_color="#0099CC"
+        app:rb_duration="3000"
+        app:rb_radius="15dp"
+        app:rb_rippleAmount="4"
+        app:rb_scale="6">
+
 
         <Chronometer
             android:id="@+id/chronometer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="80sp" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_play_stop"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:contentDescription="Start/Stop"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_play_circle_outline_black_24dp" />
-
-        <TextView
-            android:id="@+id/txt_OTP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:hint="OTP"
-            android:textSize="40dp" />
+            android:layout_centerInParent="true"
+            android:textSize="40sp" />
+    </com.skyfishjy.library.RippleBackground>
 
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/imgBtn_play_stop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/txt_OTP"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        android:contentDescription="Start/Stop"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_play_circle_outline_black_24dp" />
 
-</com.skyfishjy.library.RippleBackground>
+    <TextView
+        android:id="@+id/txt_OTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:hint="OTP"
+        android:textSize="40dp" />
+
+
+</RelativeLayout>
