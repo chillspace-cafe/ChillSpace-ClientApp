@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="366dp"
         app:rb_color="@color/colorPrimaryDark"
-        app:rb_duration="3000"
-        app:rb_radius="21dp"
-        app:rb_rippleAmount="4"
-        app:rb_scale="6">
+        app:rb_duration="2000"
+        app:rb_radius="73dp"
+        app:rb_rippleAmount="5"
+        app:rb_scale="2">
 
         <Chronometer
             android:id="@+id/chronometer"
