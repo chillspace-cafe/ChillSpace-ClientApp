@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
         val rippleBackground = rippleBackground
         val linearLayoutOTP = linearLayoutOTP
 
-        val imgBtn = btn_play_stop
+        val btnPlayStop = btn_play_stop
         val chronometer = chronometer
 
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
@@ -76,8 +76,8 @@ class HomeFragment : Fragment() {
         currentTransactionLiveData.observe(activity as LifecycleOwner, Observer { currTransac ->
             if (currTransac != null) {
                 if (currTransac.isActive!!) {
-                    imgBtn.setImageResource(R.drawable.ic_stop_black_24dp)
-                    imgBtn.setOnClickListener(onStopCLickedListener)
+                    btnPlayStop.text = "Stop"
+                    btnPlayStop.setOnClickListener(onStopCLickedListener)
 
                     //set chronometer base
                     dbRef.child("Current").child("CurrentTime").setValue(ServerValue.TIMESTAMP).addOnSuccessListener {
@@ -95,8 +95,8 @@ class HomeFragment : Fragment() {
                     }
 
                 } else {
-                    imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
-                    imgBtn.setOnClickListener(onStartCLickedListener)
+                    btnPlayStop.text = "Start"
+                    btnPlayStop.setOnClickListener(onStartCLickedListener)
 
                     chronometer.base = SystemClock.elapsedRealtime()
                     chronometer.stop()
@@ -107,8 +107,8 @@ class HomeFragment : Fragment() {
                     dialog.dismiss()
                 }
             } else {
-                imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
-                imgBtn.setOnClickListener(onStartCLickedListener)
+                btnPlayStop.text = "Stop"
+                btnPlayStop.setOnClickListener(onStartCLickedListener)
 
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.stop()
