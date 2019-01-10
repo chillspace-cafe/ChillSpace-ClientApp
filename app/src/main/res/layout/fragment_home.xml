@@ -1,51 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.skyfishjy.library.RippleBackground xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rippleBackground"
-    tools:context=".views.HomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:rb_color="#0099CC"
-    app:rb_duration="3000"
-    app:rb_radius="32dp"
-    app:rb_rippleAmount="4"
-    app:rb_scale="6">
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".views.HomeFragment">
 
-
-    <LinearLayout
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/rippleBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="366dp"
+        app:rb_color="@color/colorPrimaryDark"
+        app:rb_duration="2000"
+        app:rb_radius="73dp"
+        app:rb_rippleAmount="5"
+        app:rb_scale="2">
 
         <Chronometer
             android:id="@+id/chronometer"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="80sp" />
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:textSize="40sp" />
+    </com.skyfishjy.library.RippleBackground>
 
-        <ImageButton
-            android:id="@+id/imgBtn_play_stop"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:contentDescription="Start/Stop"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_play_circle_outline_black_24dp" />
+    <ImageButton
+        android:id="@+id/btn_play_stop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/linearLayoutOTP"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="70dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Start/Stop"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_play_circle_outline_black_24dp" />
 
+    <LinearLayout
+        android:id="@+id/linearLayoutOTP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:visibility="invisible"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text="OTP :  "/>
         <TextView
             android:id="@+id/txt_OTP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:hint="OTP"
-            android:textSize="40dp" />
+            android:text="OTP"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
 
     </LinearLayout>
 
-</com.skyfishjy.library.RippleBackground>
+
+</RelativeLayout>

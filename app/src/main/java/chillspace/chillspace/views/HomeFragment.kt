@@ -22,8 +22,6 @@ import kotlin.random.Random
 import android.view.animation.Animation
 import android.view.animation.AlphaAnimation
 import android.widget.Chronometer
-import chillspace.chillspace.R.id.imgBtn_play_stop
-import chillspace.chillspace.R.id.txt_OTP
 
 
 class HomeFragment : Fragment() {
@@ -56,9 +54,12 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        //IMPORTANT
+        //NOTE : need to make them val to use in observers
         val rippleBackground = rippleBackground
+        val linearLayoutOTP = linearLayoutOTP
 
-        val imgBtn = imgBtn_play_stop
+        val imgBtn = btn_play_stop
         val chronometer = chronometer
 
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
@@ -76,6 +77,7 @@ class HomeFragment : Fragment() {
                             override fun callback(data: Long) {
                                 chronometer.base = SystemClock.elapsedRealtime() - (data - currTransac.startTime_in_milliSec!!)
                                 chronometer.start()
+                                linearLayoutOTP.visibility = View.INVISIBLE
                                 startBlinkAnimation(chronometer, true)
                                 rippleBackground.startRippleAnimation()
                             }
@@ -88,6 +90,7 @@ class HomeFragment : Fragment() {
 
                     chronometer.base = SystemClock.elapsedRealtime()
                     chronometer.stop()
+                    linearLayoutOTP.visibility = View.INVISIBLE
                     startBlinkAnimation(chronometer, false)
                     rippleBackground.stopRippleAnimation()
                 }
@@ -97,6 +100,7 @@ class HomeFragment : Fragment() {
 
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.stop()
+                linearLayoutOTP.visibility = View.INVISIBLE
                 startBlinkAnimation(chronometer, false)
                 rippleBackground.stopRippleAnimation()
             }
@@ -129,6 +133,7 @@ class HomeFragment : Fragment() {
         dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(), isRunning = false))
 
         txt_OTP.text = otp.toString()
+        linearLayoutOTP.visibility = View.VISIBLE
     }
 
     private val onStopCLickedListener = View.OnClickListener {
@@ -141,6 +146,7 @@ class HomeFragment : Fragment() {
         dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(), isRunning = true))
 
         txt_OTP.text = otp.toString()
+        linearLayoutOTP.visibility = View.VISIBLE
     }
 
     private fun generateOTP(): Int {
