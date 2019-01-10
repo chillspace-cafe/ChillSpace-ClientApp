@@ -1,7 +1,6 @@
 package chillspace.chillspace.views
 
 import android.app.Activity
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
@@ -23,8 +22,6 @@ import kotlin.random.Random
 import android.view.animation.Animation
 import android.view.animation.AlphaAnimation
 import android.widget.Chronometer
-import chillspace.chillspace.R.id.imgBtn_play_stop
-import chillspace.chillspace.R.id.txt_OTP
 
 
 class HomeFragment : Fragment() {
@@ -62,7 +59,7 @@ class HomeFragment : Fragment() {
         val rippleBackground = rippleBackground
         val linearLayoutOTP = linearLayoutOTP
 
-        val imgBtn = imgBtn_play_stop
+        val imgBtn = btn_play_stop
         val chronometer = chronometer
 
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
