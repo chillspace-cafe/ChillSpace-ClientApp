@@ -26,12 +26,12 @@ class CompletedTransactionRecyclerAdapter(val listTransaction: ArrayList<Complet
         //Millisecond to DateTime
         val cal : Calendar = Calendar.getInstance()
         cal.timeInMillis = transaction.startTime!!.toLong()
-        val df = SimpleDateFormat("dd:MM:yy:HH:mm:ss")
+        val df = SimpleDateFormat("dd/MM/yy - HH:mm:ss")
         val dateTime = df.format(cal.time)
 
-        holder.dateTimeTextView.text = "Date-Time = "+dateTime
+        holder.dateTimeTextView.text = dateTime
         holder.playTimeTextView.text = transaction.elapsedTimeInMinutes.toString()+" minutes"
-        holder.costTextView.text = "Cost : Rs " + transaction.cost.toString()
+        holder.costTextView.text = "Rs. "+ transaction.cost.toString()
     }
 
 
