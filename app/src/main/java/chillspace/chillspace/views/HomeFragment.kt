@@ -1,6 +1,7 @@
 package chillspace.chillspace.views
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
@@ -54,6 +55,13 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        //showing dialog to load user current transaction
+        val builder = AlertDialog.Builder(activity)
+        val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+        builder.setView(progressBar)
+        val dialog = builder.create()
+        dialog.show()
+
         //IMPORTANT
         //NOTE : need to make them val to use in observers
         val rippleBackground = rippleBackground
@@ -80,6 +88,8 @@ class HomeFragment : Fragment() {
                                 linearLayoutOTP.visibility = View.INVISIBLE
                                 startBlinkAnimation(chronometer, true)
                                 rippleBackground.startRippleAnimation()
+
+                                dialog.dismiss()
                             }
                         })
                     }
@@ -93,6 +103,8 @@ class HomeFragment : Fragment() {
                     linearLayoutOTP.visibility = View.INVISIBLE
                     startBlinkAnimation(chronometer, false)
                     rippleBackground.stopRippleAnimation()
+
+                    dialog.dismiss()
                 }
             } else {
                 imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
@@ -103,6 +115,8 @@ class HomeFragment : Fragment() {
                 linearLayoutOTP.visibility = View.INVISIBLE
                 startBlinkAnimation(chronometer, false)
                 rippleBackground.stopRippleAnimation()
+
+                dialog.dismiss()
             }
         })
     }

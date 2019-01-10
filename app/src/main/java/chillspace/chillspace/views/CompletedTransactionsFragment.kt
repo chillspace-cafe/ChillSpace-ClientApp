@@ -1,5 +1,6 @@
 package chillspace.chillspace.views
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,12 +35,21 @@ class CompletedTransactionsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        //showing dialog to load user transactions
+        val builder = AlertDialog.Builder(activity)
+        val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+        builder.setView(progressBar)
+        val dialog = builder.create()
+        dialog.show()
+
         val completedTransactionViewModel = ViewModelProviders.of(this).get(CompletedTransactionsViewModel::class.java)
 
         val transactionListLiveData : LiveData<ArrayList<CompletedTransaction>> = completedTransactionViewModel.getCurrentTransactionLiveData()
 
         transactionListLiveData.observe(this, Observer {
             recycler_completedTransactions.adapter = CompletedTransactionRecyclerAdapter(it)
+
+            dialog.dismiss()
         })
     }
 }

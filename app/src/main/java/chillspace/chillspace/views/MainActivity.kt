@@ -31,12 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         //changing fragments when firebase auth changed
         firebaseAuth.addAuthStateListener {
+
             if (firebaseAuth.currentUser == null) {
                 when {
                     navController.currentDestination?.id == R.id.dest_home -> navController.navigate(R.id.action_dest_home_to_dest_signin)
                     navController.currentDestination?.id == R.id.dest_email_verification -> navController.navigate(R.id.action_dest_email_verification_to_dest_signin)
                     navController.currentDestination?.id == R.id.dest_profile -> navController.navigate(R.id.action_dest_profile_to_dest_signin)
                 }
+
             } else {
                 //checking if current user has his email verified
                 if (firebaseAuth.currentUser?.isEmailVerified!!) {

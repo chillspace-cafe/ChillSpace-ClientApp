@@ -1,5 +1,6 @@
 package chillspace.chillspace.views
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import chillspace.chillspace.R
 import chillspace.chillspace.databinding.FragmentProfileBinding
+import chillspace.chillspace.models.User
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -34,8 +36,30 @@ class ProfileFragment : Fragment() {
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().reference.child("User").child(firebaseUser.uid.toString())
 
-        binding?.user = MainActivity.user
+        //showing dialog to load user data
+        val builder = AlertDialog.Builder(activity)
+        val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+        builder.setView(progressBar)
+        val dialog = builder.create()
+        dialog.show()
 
+        if (MainActivity.user == null) {
+            databaseRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                    Toast.makeText(activity,"Can't load user data.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    binding?.user = dataSnapshot.getValue(User::class.java)
+                    MainActivity.user = dataSnapshot.getValue(User::class.java)
+                    dialog.dismiss()
+                }
+
+            })
+        } else {
+            binding?.user = MainActivity.user
+            dialog.dismiss()
+        }
         return view
     }
 
@@ -99,7 +123,7 @@ class ProfileFragment : Fragment() {
     }
 
     private val editUserDetailsOnClickListener = View.OnClickListener {
-        if(edit_name_profile.isEnabled && edit_username_profile.isEnabled){
+        if (edit_name_profile.isEnabled && edit_username_profile.isEnabled) {
             databaseRef.child("name").setValue(edit_name_profile.text.toString().trim()).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(activity, "Name updated successfully.", Toast.LENGTH_SHORT).show()
@@ -117,7 +141,10 @@ class ProfileFragment : Fragment() {
             }
 
             edit_userDetails.setImageResource(R.drawable.ic_mode_edit_black_24dp)
-        }else{
+            edit_name_profile.isEnabled = false
+            edit_username_profile.isEnabled = false
+        } else {
+            Toast.makeText(activity,"You can your User Details now.",Toast.LENGTH_SHORT).show()
             edit_name_profile.isEnabled = true
             edit_username_profile.isEnabled = true
             edit_userDetails.setImageResource(R.drawable.ic_check_circle_black)
