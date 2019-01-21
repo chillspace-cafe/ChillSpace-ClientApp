@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,16 +7,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/chillspacelogo" />
 
         <EditText
             android:id="@+id/editEmail_signInFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:background="@drawable/textinputborder"
             android:hint="Enter registered email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/editPassword_signInFragment"
@@ -25,15 +37,20 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/textinputborder"
             android:hint="Enter password"
-            android:password="true" />
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:textSize="15dp" />
 
         <Button
             android:id="@+id/signInButton_SignInFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="SignIn" />
+            android:background="@drawable/textinputborder"
+            android:padding="10dp"
+            android:text="Sign In" />
 
         <TextView
             android:id="@+id/textView_SignInFragment"
@@ -42,16 +59,38 @@
             android:layout_margin="15dp"
             android:gravity="center"
             android:textColor="@android:color/holo_red_dark" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/bottomlinearlayoutsignin"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:id="@+id/bottomlinearlayoutsignin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?" />
 
         <TextView
             android:id="@+id/proceedToSignUpTextView_SignInFragment"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_marginBottom="100dp"
-            android:gravity="center"
-            android:text="Don't have an acoount?\nClick here to create one."
-            android:textColor="@color/link_color" />
+            android:layout_marginLeft="10dp"
+            android:text="Sign Up"
+            android:textColor="@color/link_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-</ScrollView>
+
+</RelativeLayout>

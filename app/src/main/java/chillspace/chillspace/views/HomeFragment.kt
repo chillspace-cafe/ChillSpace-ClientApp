@@ -1,6 +1,7 @@
 package chillspace.chillspace.views
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
@@ -22,8 +23,6 @@ import kotlin.random.Random
 import android.view.animation.Animation
 import android.view.animation.AlphaAnimation
 import android.widget.Chronometer
-import chillspace.chillspace.R.id.imgBtn_play_stop
-import chillspace.chillspace.R.id.txt_OTP
 
 
 class HomeFragment : Fragment() {
@@ -56,9 +55,19 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val rippleBackground = rippleBackground
+        //showing dialog to load user current transaction
+        val builder = AlertDialog.Builder(activity)
+        val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+        builder.setView(progressBar)
+        val dialog = builder.create()
+        dialog.show()
 
-        val imgBtn = imgBtn_play_stop
+        //IMPORTANT
+        //NOTE : need to make them val to use in observers
+        val rippleBackground = rippleBackground
+        val linearLayoutOTP = linearLayoutOTP
+
+        val btnPlayStop = btn_play_stop
         val chronometer = chronometer
 
         val currentTransactionViewModel = ViewModelProviders.of(this).get(CurrentTransactionViewModel::class.java)
@@ -67,8 +76,8 @@ class HomeFragment : Fragment() {
         currentTransactionLiveData.observe(activity as LifecycleOwner, Observer { currTransac ->
             if (currTransac != null) {
                 if (currTransac.isActive!!) {
-                    imgBtn.setImageResource(R.drawable.ic_stop_black_24dp)
-                    imgBtn.setOnClickListener(onStopCLickedListener)
+                    btnPlayStop.text = "Stop"
+                    btnPlayStop.setOnClickListener(onStopCLickedListener)
 
                     //set chronometer base
                     dbRef.child("Current").child("CurrentTime").setValue(ServerValue.TIMESTAMP).addOnSuccessListener {
@@ -76,29 +85,38 @@ class HomeFragment : Fragment() {
                             override fun callback(data: Long) {
                                 chronometer.base = SystemClock.elapsedRealtime() - (data - currTransac.startTime_in_milliSec!!)
                                 chronometer.start()
+                                linearLayoutOTP.visibility = View.INVISIBLE
                                 startBlinkAnimation(chronometer, true)
                                 rippleBackground.startRippleAnimation()
+
+                                dialog.dismiss()
                             }
                         })
                     }
 
                 } else {
-                    imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
-                    imgBtn.setOnClickListener(onStartCLickedListener)
+                    btnPlayStop.text = "Start"
+                    btnPlayStop.setOnClickListener(onStartCLickedListener)
 
                     chronometer.base = SystemClock.elapsedRealtime()
                     chronometer.stop()
+                    linearLayoutOTP.visibility = View.INVISIBLE
                     startBlinkAnimation(chronometer, false)
                     rippleBackground.stopRippleAnimation()
+
+                    dialog.dismiss()
                 }
             } else {
-                imgBtn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
-                imgBtn.setOnClickListener(onStartCLickedListener)
+                btnPlayStop.text = "Start"
+                btnPlayStop.setOnClickListener(onStartCLickedListener)
 
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.stop()
+                linearLayoutOTP.visibility = View.INVISIBLE
                 startBlinkAnimation(chronometer, false)
                 rippleBackground.stopRippleAnimation()
+
+                dialog.dismiss()
             }
         })
     }
@@ -118,7 +136,6 @@ class HomeFragment : Fragment() {
 
     }
 
-
     private val onStartCLickedListener = View.OnClickListener {
 
         Toast.makeText(activity, "Starting", Toast.LENGTH_SHORT).show()
@@ -129,6 +146,7 @@ class HomeFragment : Fragment() {
         dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(), isRunning = false))
 
         txt_OTP.text = otp.toString()
+        linearLayoutOTP.visibility = View.VISIBLE
     }
 
     private val onStopCLickedListener = View.OnClickListener {
@@ -141,6 +159,7 @@ class HomeFragment : Fragment() {
         dbRef.child("GeneratedOTPs").child(otp.toString()).setValue(GeneratedOTP(uid = firebaseAuth.currentUser?.uid.toString(), isRunning = true))
 
         txt_OTP.text = otp.toString()
+        linearLayoutOTP.visibility = View.VISIBLE
     }
 
     private fun generateOTP(): Int {

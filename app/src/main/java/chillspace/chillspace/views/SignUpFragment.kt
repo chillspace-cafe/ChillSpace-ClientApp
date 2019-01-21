@@ -43,7 +43,7 @@ class SignUpFragment : Fragment() {
 
             //showing progress dialog
             val builder = AlertDialog.Builder(activity)
-            var progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
+            val progressBar: View = layoutInflater.inflate(R.layout.progress_dialog, null)
             builder.setView(progressBar)
             val dialog = builder.create()
             dialog.show()

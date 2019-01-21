@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <EditText
@@ -16,8 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:background="@drawable/textinputborder"
             android:hint="Enter Email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/editPassword_SignUpFragment"
@@ -26,8 +29,11 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/textinputborder"
             android:hint="Set Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/editUsername_SignUpFragment"
@@ -35,7 +41,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:hint="Set Username" />
+            android:background="@drawable/textinputborder"
+            android:hint="Set Username"
+            android:padding="8dp"
+            android:textSize="15dp" />
 
         <Button
             android:id="@+id/buttonRegister_SignUpFragment"
@@ -54,15 +63,36 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:textColor="@android:color/holo_red_dark" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/bottomlinearlayoutsignup"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:id="@+id/bottomlinearlayoutsignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?" />
 
         <TextView
             android:id="@+id/proceedToSignInTextView_SignUpFragment"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="100dp"
-            android:gravity="center"
-            android:text="Already a user? Proceed to Sign In..."
-            android:textColor="@color/link_color" />
+            android:layout_marginLeft="10dp"
+            android:text="Sign In"
+            android:textColor="@color/link_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
