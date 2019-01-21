@@ -1,6 +1,7 @@
 package chillspace.chillspace.views
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -14,6 +15,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import android.opengl.ETC1.getHeight
+import android.opengl.Visibility
+import android.view.animation.TranslateAnimation
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 
 class ProfileFragment : Fragment() {
@@ -44,9 +54,9 @@ class ProfileFragment : Fragment() {
         dialog.show()
 
         if (MainActivity.user == null) {
-            databaseRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-                    Toast.makeText(activity,"Can't load user data.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Can't load user data.", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -67,7 +77,21 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         edit_name_profile.isEnabled = false
-        edit_username_profile.isEnabled = false
+
+        clicktextChangePassword.setOnClickListener {
+            if (changepasswordlinearlayout.visibility != View.VISIBLE) {
+                val animate = TranslateAnimation(
+                        0f, // fromXDelta
+                        0f, // toXDelta
+                        (-changepasswordlinearlayout.height).toFloat(), // fromYDelta
+                        0f) // toYDelta
+                animate.duration = 500
+                animate.fillAfter = true
+                changepasswordlinearlayout.startAnimation(animate)
+
+                changepasswordlinearlayout.visibility = View.VISIBLE
+            }
+        }
 
         btn_changepassword_profile.setOnClickListener {
 
@@ -123,7 +147,7 @@ class ProfileFragment : Fragment() {
     }
 
     private val editUserDetailsOnClickListener = View.OnClickListener {
-        if (edit_name_profile.isEnabled && edit_username_profile.isEnabled) {
+        if (edit_name_profile.isEnabled) {
             databaseRef.child("name").setValue(edit_name_profile.text.toString().trim()).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(activity, "Name updated successfully.", Toast.LENGTH_SHORT).show()
@@ -132,21 +156,18 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            databaseRef.child("username").setValue(edit_username_profile.text.toString().trim()).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(activity, "Username updated successfully.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(activity, "Couldn't update username. Please try again.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
             edit_userDetails.setImageResource(R.drawable.ic_mode_edit_black_24dp)
             edit_name_profile.isEnabled = false
-            edit_username_profile.isEnabled = false
         } else {
-            Toast.makeText(activity,"You can your User Details now.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Name can be edited now.", Toast.LENGTH_SHORT).show()
+
+            //opening keyboard with edit name as focus
+            edit_name_profile.requestFocus()
+            edit_name_profile.setSelection(edit_name_profile.text.toString().length)
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm!!.showSoftInput(edit_name_profile, InputMethodManager.SHOW_IMPLICIT)
+
             edit_name_profile.isEnabled = true
-            edit_username_profile.isEnabled = true
             edit_userDetails.setImageResource(R.drawable.ic_check_circle_black)
         }
     }
