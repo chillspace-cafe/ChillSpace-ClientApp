@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
                     dialog.dismiss()
                 }
             } else {
-                btnPlayStop.text = "Stop"
+                btnPlayStop.text = "Start"
                 btnPlayStop.setOnClickListener(onStartCLickedListener)
 
                 chronometer.base = SystemClock.elapsedRealtime()
@@ -135,7 +135,6 @@ class HomeFragment : Fragment() {
         })
 
     }
-
 
     private val onStartCLickedListener = View.OnClickListener {
 
