@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //for toolbar
+
+        //for toolbar // required for menu
         setSupportActionBar(toolbar)
 
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
