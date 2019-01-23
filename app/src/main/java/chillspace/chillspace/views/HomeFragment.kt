@@ -138,7 +138,7 @@ class HomeFragment : Fragment() {
 
     private val onStartCLickedListener = View.OnClickListener {
 
-        Toast.makeText(activity, "Starting", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "Pleas provide OTP to admin.", Toast.LENGTH_SHORT).show()
 
         val otp = generateOTP()
         otpList.add(otp)
@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
     }
 
     private val onStopCLickedListener = View.OnClickListener {
-        Toast.makeText(activity, "Ending", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "Pleas provide OTP to admin.", Toast.LENGTH_SHORT).show()
 
         val otp = generateOTP()
         otpList.add(otp)
