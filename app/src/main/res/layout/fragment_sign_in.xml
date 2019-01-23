@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <ImageView
@@ -17,18 +17,19 @@
             android:layout_height="180dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
-            android:src="@drawable/chillspacelogo" />
+            android:src="@drawable/logowithtext" />
 
         <EditText
             android:id="@+id/editEmail_signInFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/textinputborder"
             android:hint="Enter registered email"
             android:inputType="textEmailAddress"
             android:padding="8dp"
-            android:textSize="15dp" />
+            android:textSize="17dp" />
 
         <EditText
             android:id="@+id/editPassword_signInFragment"
@@ -41,7 +42,7 @@
             android:hint="Enter password"
             android:inputType="textPassword"
             android:padding="8dp"
-            android:textSize="15dp" />
+            android:textSize="17dp" />
 
         <Button
             android:id="@+id/signInButton_SignInFragment"
@@ -51,6 +52,14 @@
             android:background="@drawable/textinputborder"
             android:padding="10dp"
             android:text="Sign In" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot password ?"
+            android:gravity="center"
+            android:textColor="@color/link_color"
+            android:id="@+id/text_forgot_password"/>
 
         <TextView
             android:id="@+id/textView_SignInFragment"

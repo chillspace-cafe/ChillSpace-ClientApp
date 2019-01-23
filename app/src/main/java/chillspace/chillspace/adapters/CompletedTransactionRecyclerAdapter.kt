@@ -24,19 +24,23 @@ class CompletedTransactionRecyclerAdapter(val listTransaction: ArrayList<Complet
         val transaction = listTransaction.get(position)
 
         //Millisecond to DateTime
-        val cal : Calendar = Calendar.getInstance()
+        val cal: Calendar = Calendar.getInstance()
         cal.timeInMillis = transaction.startTime!!.toLong()
-        val df = SimpleDateFormat("dd/MM/yy - HH:mm:ss")
-        val dateTime = df.format(cal.time)
+        val dateformat = SimpleDateFormat("dd/MM/yy")
+        val timeformat = SimpleDateFormat("HH:mm")
+        val date = dateformat.format(cal.time)
+        val time = timeformat.format(cal.time)
 
-        holder.dateTimeTextView.text = dateTime
-        holder.playTimeTextView.text = transaction.elapsedTimeInMinutes.toString()+" minutes"
-        holder.costTextView.text = "Rs. "+ transaction.cost.toString()
+        holder.timeTextView.text = time
+        holder.dateTextView.text = date
+        holder.playTimeTextView.text = "Play Time : "+transaction.elapsedTimeInMinutes.toString() + " minutes"
+        holder.costTextView.text = "-Rs. " + transaction.cost.toString()
     }
 
 
     class MyViewHolder(val itemview: View) : RecyclerView.ViewHolder(itemview) {
-        val dateTimeTextView = itemview.findViewById<TextView>(R.id.date_time_transaction_row)
+        val dateTextView = itemview.findViewById<TextView>(R.id.date_transaction_row)
+        val timeTextView = itemview.findViewById<TextView>(R.id.time_transaction_row)
         val playTimeTextView = itemview.findViewById<TextView>(R.id.playTime_transaction_row)
         val costTextView = itemView.findViewById<TextView>(R.id.cost_transaction_row)
     }

@@ -20,7 +20,7 @@
             android:hint="Enter Email"
             android:inputType="textEmailAddress"
             android:padding="8dp"
-            android:textSize="15dp" />
+            android:textSize="17dp" />
 
         <EditText
             android:id="@+id/editPassword_SignUpFragment"
@@ -33,7 +33,7 @@
             android:hint="Set Password"
             android:inputType="textPassword"
             android:padding="8dp"
-            android:textSize="15dp" />
+            android:textSize="17dp" />
 
         <EditText
             android:id="@+id/editUsername_SignUpFragment"
@@ -44,7 +44,7 @@
             android:background="@drawable/textinputborder"
             android:hint="Set Username"
             android:padding="8dp"
-            android:textSize="15dp" />
+            android:textSize="17dp" />
 
         <Button
             android:id="@+id/buttonRegister_SignUpFragment"
